@@ -72,7 +72,7 @@ The `pom.xml` file is configured to:
 ## Dependencies
 
 The project depends on:
-- `org.openbankproject:obp-scala-library_2.13:0.1.0` - The main library
+- `com.openbankproject:obp-scala-library_2.13:0.1.0-SNAPSHOT` - The main library
 - `org.scala-lang:scala-library:2.13.14` - Scala runtime (required for Java interop)
 
 ## Usage in Your Own Java Projects
@@ -84,9 +84,9 @@ To use the OBP Scala Library in your own Java/Maven projects, add this to your `
 <!-- After running: sbt +publishLocal -->
 <dependencies>
   <dependency>
-    <groupId>org.openbankproject</groupId>
+    <groupId>com.openbankproject</groupId>
     <artifactId>obp-scala-library_2.13</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.scala-lang</groupId>
@@ -113,9 +113,9 @@ To use the OBP Scala Library in your own Java/Maven projects, add this to your `
 
 <dependencies>
   <dependency>
-    <groupId>org.openbankproject</groupId>
+    <groupId>com.openbankproject</groupId>
     <artifactId>obp-scala-library_2.13</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.scala-lang</groupId>

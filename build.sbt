@@ -56,7 +56,7 @@ ThisBuild / publishConfiguration := publishConfiguration.value.withOverwrite(tru
 ThisBuild / publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true)
 
 // Organization and metadata
-ThisBuild / organization := "org.openbankproject"
+ThisBuild / organization := "com.openbankproject"
 ThisBuild / organizationName := "Open Bank Project"
 ThisBuild / organizationHomepage := Some(url("https://www.openbankproject.com/"))
 

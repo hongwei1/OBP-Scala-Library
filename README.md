@@ -110,20 +110,19 @@ Add to your `build.sbt`:
 
 ```scala
 // After publishing locally
-libraryDependencies += "org.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
 
 // Using Nexus repository
 resolvers += ("Local Nexus" at "http://localhost:8081/repository/maven-snapshots/").withAllowInsecureProtocol(true)
-libraryDependencies += "org.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
 ```
 
 Using the library:
 ```scala
-import org.openbankproject.library.OBPLibrary
+import com.openbankproject.library.ObpScalaLibrary
 
 object MyApp extends App {
-  val library = new OBPLibrary()
-  println(library.greet("Scala Developer"))
+  println(ObpScalaLibrary.hello("Scala Developer"))
 }
 ```
 
@@ -134,7 +133,7 @@ Add to your `pom.xml`:
 ```xml
 <dependencies>
   <dependency>
-    <groupId>org.openbankproject</groupId>
+    <groupId>com.openbankproject</groupId>
     <artifactId>obp-scala-library_2.13</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </dependency>
@@ -148,12 +147,11 @@ Add to your `pom.xml`:
 
 Using the library:
 ```java
-import org.openbankproject.library.OBPLibrary;
+import com.openbankproject.library.ObpScalaLibrary;
 
 public class MyJavaApp {
     public static void main(String[] args) {
-        OBPLibrary library = new OBPLibrary();
-        System.out.println(library.greet("Java Developer"));
+        System.out.println(ObpScalaLibrary.hello("Java Developer"));
     }
 }
 ```

@@ -148,7 +148,7 @@ docker exec sbt bash -c "cd /workspace && sbt +test"
 
 Expected output:
 ```
-[info] MyLibSpec:
+[info] ObpScalaLibrary:
 [info] MyLib
 [info] - should return correct greeting
 [info] Run completed in 322 milliseconds.
@@ -220,14 +220,14 @@ docker exec sbt bash -c "cd /workspace && sbt <command>"
 ### Build Settings
 ```scala
 crossScalaVersions := Seq("2.12.17", "2.13.14", "3.3.1")
-organization := "org.openbankproject"
+organization := "com.openbankproject"
 versionScheme := Some("early-semver")
 ```
 
 ## 🌐 Nexus Web Interface
 
 - **URL**: http://localhost:8081
-- **Username**: admin  
+- **Username**: admin
 - **Password**: 20b05303-d54d-434e-8aa6-48cc9ed3de20
 
 ### Available Repositories
@@ -241,7 +241,7 @@ versionScheme := Some("early-semver")
 
 #### "cd: docker: No such file or directory"
 **Problem**: Trying to run `cd docker` when already in the docker directory.
-**Solution**: 
+**Solution**:
 ```bash
 # From project root
 cd OBP-Scala-Library/docker
@@ -422,7 +422,7 @@ docker/
 ## 🚀 Next Steps (Docker Environment)
 
 1. **Development**: Edit code on host with your preferred IDE (files are mounted)
-2. **Testing**: Use `docker exec sbt bash -c "cd /workspace && sbt +test"` for testing  
+2. **Testing**: Use `docker exec sbt bash -c "cd /workspace && sbt +test"` for testing
 3. **Publishing**: Artifacts auto-published to local repository in Docker
 4. **CI/CD**: GitHub Actions workflow ready for automated publishing
 5. **Production**: Switch to HTTPS repositories for production use

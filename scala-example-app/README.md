@@ -57,7 +57,7 @@ This is a simple Scala application that demonstrates how to use the OBP Scala Li
 
 The `build.sbt` file is configured to:
 - Use Scala 2.13.14 (default version)
-- Depend on `org.openbankproject %% "obp-scala-library" % "0.1.0"`
+- Depend on `com.openbankproject %% "obp-scala-library" % "0.1.0-SNAPSHOT"`
 - Use standard Ivy local repository (works in both Docker and native environments)
 
 ## Usage in Your Own Projects
@@ -67,17 +67,17 @@ To use the OBP Scala Library in your own Scala projects, add this to your `build
 
 ```scala
 // After running: sbt +publishLocal
-libraryDependencies += "org.openbankproject" %% "obp-scala-library" % "0.1.0"
+libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
 ```
 
 ### Docker Environment
 ```scala
 // Library available via Docker publishLocal
-libraryDependencies += "org.openbankproject" %% "obp-scala-library" % "0.1.0"
+libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
 
 // Or using Nexus repository:
-resolvers += ("Local Nexus" at "http://nexus:8081/repository/maven-releases/").withAllowInsecureProtocol(true)
-libraryDependencies += "org.openbankproject" %% "obp-scala-library" % "0.1.0"
+resolvers += ("Local Nexus" at "http://nexus:8081/repository/maven-snapshots/").withAllowInsecureProtocol(true)
+libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "0.1.0-SNAPSHOT"
 ```
 
 ## Troubleshooting

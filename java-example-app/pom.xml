@@ -29,9 +29,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.openbankproject</groupId>
+      <groupId>com.openbankproject</groupId>
       <artifactId>obp-scala-library_2.13</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
