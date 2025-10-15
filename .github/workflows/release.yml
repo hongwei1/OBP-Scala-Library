@@ -3,50 +3,97 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   release:
+    name: Create Release
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
-    - name: Cache SBT
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.sbt
-          ~/.ivy2/cache
-          ~/.coursier/cache
-        key: sbt-${{ runner.os }}-${{ hashFiles('**/*.sbt', '**/build.properties', '**/plugins.sbt') }}
-        restore-keys: |
-          sbt-${{ runner.os }}-
+      - name: Cache SBT
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt
+            ~/.ivy2/cache
+            ~/.coursier/cache
+          key: sbt-${{ runner.os }}-${{ hashFiles('**/*.sbt', '**/build.properties', '**/plugins.sbt') }}
+          restore-keys: |
+            sbt-${{ runner.os }}-
 
-    - name: Build and test all Scala versions
-      run: sbt +clean +compile +test
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.PGP_SECRET }}
+          passphrase: ${{ secrets.PGP_PASSPHRASE }}
 
-    - name: Publish signed artifacts
-      run: sbt +publishSigned
-      env:
-        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-        PGP_SECRET: ${{ secrets.PGP_SECRET }}
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
+      - name: Update version in build.sbt
+        run: |
+          sed -i 's/version := ".*"/version := "${{ steps.version.outputs.VERSION }}"/' build.sbt
+          cat build.sbt | grep version
+
+      - name: Build and test all Scala versions
+        run: sbt +clean +compile +test
+
+      - name: Publish to Maven Central
+        run: sbt +publishSigned sonatypeBundleRelease
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## OBP Scala Library ${{ steps.version.outputs.VERSION }}
+
+            ### Maven Usage
+            ```xml
+            <dependency>
+              <groupId>com.openbankproject</groupId>
+              <artifactId>obp-scala-library_2.13</artifactId>
+              <version>${{ steps.version.outputs.VERSION }}</version>
+            </dependency>
+            ```
+
+            ### SBT Usage
+            ```scala
+            libraryDependencies += "com.openbankproject" %% "obp-scala-library" % "${{ steps.version.outputs.VERSION }}"
+            ```
+
+            ### Supported Scala Versions
+            - Scala 2.12.17
+            - Scala 2.13.14
+            - Scala 3.3.1
+
+            Published to Maven Central: https://central.sonatype.com/artifact/com.openbankproject/obp-scala-library_2.13/${{ steps.version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+
+      - name: Notify success
+        if: success()
+        run: |
+          echo "✅ Successfully published OBP Scala Library ${{ steps.version.outputs.VERSION }} to Maven Central"
+          echo "📦 Artifacts available at: https://central.sonatype.com/artifact/com.openbankproject/obp-scala-library_2.13/${{ steps.version.outputs.VERSION }}"

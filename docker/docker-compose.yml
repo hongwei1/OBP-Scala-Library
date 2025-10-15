@@ -1,31 +1,24 @@
 version: "3.9"
 
 services:
-  # Nexus repository
-  nexus:
-    image: sonatype/nexus3:latest
-    container_name: nexus
-    ports:
-      - "8081:8081"
-    volumes:
-      - nexus-data:/nexus-data
-    environment:
-      - INSTALL4J_ADD_VM_PARAMS=-Xms1200m -Xmx1200m
-
   # SBT container for building/publishing library
   sbt:
     build:
       context: ./sbt
       dockerfile: Dockerfile
-    container_name: sbt
+    container_name: obp-sbt
     working_dir: /workspace
     volumes:
       - ../:/workspace
-      - ~/.m2:/root/.m2
-      - ~/.ivy2:/root/.ivy2
-    depends_on:
-      - nexus
+      - sbt-cache:/root/.sbt
+      - ivy-cache:/root/.ivy2
+      - coursier-cache:/root/.cache/coursier
+    environment:
+      - SBT_OPTS=-Xmx2G -XX:+UseG1GC
     tty: true
+    stdin_open: true
 
 volumes:
-  nexus-data:
+  sbt-cache:
+  ivy-cache:
+  coursier-cache:
