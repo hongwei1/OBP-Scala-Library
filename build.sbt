@@ -4,7 +4,7 @@ version := "0.1.0-SNAPSHOT"
 
 scalaVersion := "2.13.14"
 
-crossScalaVersions := Seq("2.12.17", "2.13.14", "3.3.1")
+crossScalaVersions := Seq("2.12.20", "2.13.14", "3.3.1")
 
 // Organization and metadata
 ThisBuild / organization := "com.openbankproject"

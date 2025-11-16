@@ -8,3 +8,6 @@ addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 
 // sbt-ci-release for CI/CD release automation - updated to compatible version
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
+
+// Add airframe-log to suppress AirframeLogManager warning from sbt-ci-release
+libraryDependencies += "org.wvlet.airframe" %% "airframe-log" % "24.5.0"
