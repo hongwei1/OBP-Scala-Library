@@ -55,10 +55,8 @@ ThisBuild / developers := List(
   )
 )
 
-// POM customization for Maven Central
-pomExtra := (
-  <description>Open Bank Project Scala Library - A comprehensive library for banking operations</description>
-)
+// Project description (will be used in generated POM)
+description := "Open Bank Project Scala Library - A comprehensive library for banking operations"
 
 // Cross-compilation settings
 crossPaths := true
