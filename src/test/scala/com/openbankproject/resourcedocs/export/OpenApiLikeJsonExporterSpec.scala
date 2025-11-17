@@ -1,4 +1,4 @@
-package com.openbankproject.resourcedocs.export
+package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.{ImplementedByJson, OBPResourceDocJson, RoleInfoJson}
 import org.scalatest.funsuite.AnyFunSuite
@@ -54,7 +54,7 @@ class OpenApiLikeJsonExporterSpec extends AnyFunSuite {
       summary = "Get Bank Attributes"
     )
 
-    val json = OpenApiLikeJsonExporter.export(Seq(getBankAttributes, createBanks, getBanksV3))
+    val json = OpenApiLikeJsonExporter.render(Seq(getBankAttributes, createBanks, getBanksV3))
 
     assert(json.contains("\"openapi\": \"3.0.0\""))
     assert(json.contains("\"/obp/v3.0.0/banks\""))
@@ -78,7 +78,7 @@ class OpenApiLikeJsonExporterSpec extends AnyFunSuite {
       error_response_bodies = List("OBP-40300: Insufficient Privileges.", "OBP-50000: Unknown Error.")
     )
 
-    val json = OpenApiLikeJsonExporter.export(Seq(securedDoc))
+    val json = OpenApiLikeJsonExporter.render(Seq(securedDoc))
 
     assert(json.contains("\"rolesAnyOf\""))
     assert(json.contains("CanGetBanks"))
@@ -87,5 +87,3 @@ class OpenApiLikeJsonExporterSpec extends AnyFunSuite {
     assert(json.contains("\"50000\""))
   }
 }
-
-

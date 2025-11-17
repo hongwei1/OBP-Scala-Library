@@ -1,12 +1,11 @@
-package com.openbankproject.resourcedocs.export
+package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.OBPResourceDocJson
 
-/**
- * Simple Markdown exporter.
- */
+/** Simple Markdown exporter.
+  */
 object MarkdownExporter {
-  def export(docs: Seq[OBPResourceDocJson]): String = {
+  def render(docs: Seq[OBPResourceDocJson]): String = {
     val sb = new StringBuilder
     val ordered = docs.sortBy(_.operation_id)
     ordered.foreach { d =>
@@ -21,5 +20,3 @@ object MarkdownExporter {
     sb.toString()
   }
 }
-
-

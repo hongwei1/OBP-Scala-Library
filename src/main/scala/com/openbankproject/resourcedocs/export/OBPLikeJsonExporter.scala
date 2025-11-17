@@ -1,4 +1,4 @@
-package com.openbankproject.resourcedocs.export
+package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.{OBPResourceDocJson, RoleInfoJson}
 
@@ -7,17 +7,16 @@ import scala.collection.mutable.ArrayBuffer
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
-/**
- * Produces a JSON document that mirrors OBP-API's ResourceDoc response structure.
- * The output contains a resource_docs array plus meta information (response date and count).
- *
- * This exporter deliberately avoids external JSON libraries to keep the module lightweight.
- */
+/** Produces a JSON document that mirrors OBP-API's ResourceDoc response structure. The output contains a resource_docs
+  * array plus meta information (response date and count).
+  *
+  * This exporter deliberately avoids external JSON libraries to keep the module lightweight.
+  */
 object OBPLikeJsonExporter {
 
   private val isoFormatter: DateTimeFormatter = DateTimeFormatter.ISO_INSTANT
 
-  def export(docs: Seq[OBPResourceDocJson], responseDate: Instant = Instant.now()): String = {
+  def render(docs: Seq[OBPResourceDocJson], responseDate: Instant = Instant.now()): String = {
     val orderedDocs = docs.sortBy(_.operation_id)
     val sb = new StringBuilder
     sb.append("{\n")
@@ -101,10 +100,12 @@ object OBPLikeJsonExporter {
       prefix + "[]"
     } else {
       val innerIndent = spaces(indent + 2)
-      val rendered = values.zipWithIndex.map { case (v, idx) =>
-        val comma = if (idx < values.size - 1) "," else ""
-        innerIndent + "\"" + escape(v) + "\"" + comma
-      }.mkString("\n")
+      val rendered = values.zipWithIndex
+        .map { case (v, idx) =>
+          val comma = if (idx < values.size - 1) "," else ""
+          innerIndent + "\"" + escape(v) + "\"" + comma
+        }
+        .mkString("\n")
       prefix + "[\n" + rendered + "\n" + spaces(indent) + "]"
     }
   }
@@ -120,14 +121,16 @@ object OBPLikeJsonExporter {
     val indentStr = spaces(indent)
     if (roleInfos.isEmpty) indentStr + "\"roles\": []"
     else {
-      val entries = roleInfos.map { info =>
-        val builder = new StringBuilder
-        builder.append(spaces(indent + 2) + "{\n")
-        builder.append(spaces(indent + 4) + "\"role\": \"" + escape(info.role) + "\",\n")
-        builder.append(spaces(indent + 4) + "\"requires_bank_id\": " + info.requires_bank_id + "\n")
-        builder.append(spaces(indent + 2) + "}")
-        builder.toString()
-      }.mkString(",\n")
+      val entries = roleInfos
+        .map { info =>
+          val builder = new StringBuilder
+          builder.append(spaces(indent + 2) + "{\n")
+          builder.append(spaces(indent + 4) + "\"role\": \"" + escape(info.role) + "\",\n")
+          builder.append(spaces(indent + 4) + "\"requires_bank_id\": " + info.requires_bank_id + "\n")
+          builder.append(spaces(indent + 2) + "}")
+          builder.toString()
+        }
+        .mkString(",\n")
       indentStr + "\"roles\": [\n" + entries + "\n" + indentStr + "]"
     }
   }
@@ -183,5 +186,3 @@ object OBPLikeJsonExporter {
 
   private def spaces(count: Int): String = " " * count
 }
-
-

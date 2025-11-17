@@ -3,18 +3,16 @@ package com.openbankproject.resourcedocs.core.enforce
 import com.openbankproject.resourcedocs.core.model.{RequiredRole, RequestContext, RoleInfoJson}
 import com.openbankproject.resourcedocs.core.registry.ResourceDocRegistry
 
-/**
- * Performs access checks against registered ResourceDocs by operationId.
- */
+/** Performs access checks against registered ResourceDocs by operationId.
+  */
 object AccessChecker {
 
-  /**
-   * Convert role descriptors to RequiredRole for authorization checks.
-   * The semantics follow OBP-API: providing multiple roles means logical OR.
-   */
+  /** Convert role descriptors to RequiredRole for authorization checks. The semantics follow OBP-API: providing
+    * multiple roles means logical OR.
+    */
   private def rolesToRequiredRole(roles: Option[List[RoleInfoJson]]): RequiredRole = {
     roles match {
-      case None => RequiredRole.public
+      case None      => RequiredRole.public
       case Some(Nil) => RequiredRole.public
       case Some(roleInfos) =>
         val identifiers = roleInfos.map(_.role).toSet
@@ -35,5 +33,3 @@ object AccessChecker {
   private def isAuthorized(required: RequiredRole, userRoles: Set[String]): Boolean =
     required.isAuthorized(userRoles)
 }
-
-

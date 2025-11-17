@@ -1,4 +1,4 @@
-package com.openbankproject.resourcedocs.export
+package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.{ImplementedByJson, OBPResourceDocJson}
 import org.scalatest.funsuite.AnyFunSuite
@@ -17,7 +17,13 @@ class MarkdownExporterSpec extends AnyFunSuite {
   private val getBanksTypedSuccessResponse: String =
     """{"type":"object","properties":{"banks":{"type":"array","items":{"type":"object","properties":{"bank_routings":{"type":"array","items":{"type":"object","properties":{"address":{"type":"string"},"scheme":{"type":"string"}}}},"website":{"type":"string"},"logo":{"type":"string"},"attributes":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string"},"value":{"type":"string"}}}},"short_name":{"type":"string"},"id":{"type":"string"},"full_name":{"type":"string"}}}}}}"""
 
-  private def getBanksDoc(operationId: String, verb: String, path: String, summary: String, tags: List[String]): OBPResourceDocJson = {
+  private def getBanksDoc(
+      operationId: String,
+      verb: String,
+      path: String,
+      summary: String,
+      tags: List[String]
+  ): OBPResourceDocJson = {
     OBPResourceDocJson(
       operation_id = operationId,
       implemented_by = ImplementedByJson(version = "OBPv4.0.0", function = "getBanks"),
@@ -50,7 +56,7 @@ class MarkdownExporterSpec extends AnyFunSuite {
       tags = List("PSD2", "Account Information Service (AIS)")
     )
 
-    val markdown = MarkdownExporter.export(Seq(getBanksV4, getBanksV3)) // intentionally shuffled
+    val markdown = MarkdownExporter.render(Seq(getBanksV4, getBanksV3)) // intentionally shuffled
 
     assert(markdown.contains("### OBPv3.0.0-getBanks"))
     assert(markdown.contains("- Method: GET"))
@@ -64,5 +70,3 @@ class MarkdownExporterSpec extends AnyFunSuite {
     assert(markdown.indexOf("### OBPv3.0.0-getBanks") < markdown.indexOf("### OBPv4.0.0-getBanks"))
   }
 }
-
-

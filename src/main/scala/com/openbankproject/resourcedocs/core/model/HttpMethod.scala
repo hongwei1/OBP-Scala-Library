@@ -1,8 +1,7 @@
 package com.openbankproject.resourcedocs.core.model
 
-/**
- * HTTP method enumeration independent of any web framework.
- */
+/** HTTP method enumeration independent of any web framework.
+  */
 sealed trait HttpMethod extends Product with Serializable { def name: String }
 
 object HttpMethod {
@@ -19,5 +18,3 @@ object HttpMethod {
   def fromString(method: String): Option[HttpMethod] =
     all.find(_.name.equalsIgnoreCase(method))
 }
-
-

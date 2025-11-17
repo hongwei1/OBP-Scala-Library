@@ -4,9 +4,8 @@ import com.openbankproject.resourcedocs.core.model.OBPResourceDocJson
 
 import scala.collection.concurrent.TrieMap
 
-/**
- * Thread-safe registry for OBPResourceDocJson by operationId.
- */
+/** Thread-safe registry for OBPResourceDocJson by operationId.
+  */
 object ResourceDocRegistry {
   private[this] val byOperationId: TrieMap[String, OBPResourceDocJson] = TrieMap.empty
 
@@ -23,5 +22,3 @@ object ResourceDocRegistry {
 
   def clear(): Unit = byOperationId.clear()
 }
-
-

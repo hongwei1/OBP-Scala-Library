@@ -1,4 +1,4 @@
-package com.openbankproject.resourcedocs.export
+package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.{ImplementedByJson, OBPResourceDocJson, RoleInfoJson}
 import org.scalatest.funsuite.AnyFunSuite
@@ -106,7 +106,14 @@ class OBPLikeJsonExporterSpec extends AnyFunSuite {
     description_markdown = getBanksDescriptionMarkdown,
     success_response_body = Some(getBanksSuccessResponse),
     error_response_bodies = List("OBP-50000: Unknown Error."),
-    tags = List("BankAccountTag1", "BankAccountTag1", "BankAccountTag1", "Bank", "Account Information Service (AIS)", "PSD2"),
+    tags = List(
+      "BankAccountTag1",
+      "BankAccountTag1",
+      "BankAccountTag1",
+      "Bank",
+      "Account Information Service (AIS)",
+      "PSD2"
+    ),
     typed_success_response_body = Some(getBanksTypedSuccessResponse),
     specified_url = "/obp/v5.1.0/banks",
     special_instructions = "",
@@ -126,8 +133,8 @@ class OBPLikeJsonExporterSpec extends AnyFunSuite {
 
   test("export should match the official getBanks JSON payload exactly") {
     val doc = baseDoc("OBPv4.0.0-getBanks")
- 
-    val json = OBPLikeJsonExporter.export(Seq(doc), Instant.parse("2025-11-16T21:57:26Z"))
+
+    val json = OBPLikeJsonExporter.render(Seq(doc), Instant.parse("2025-11-16T21:57:26Z"))
 
     val expectedJson =
       s"""
@@ -261,7 +268,7 @@ class OBPLikeJsonExporterSpec extends AnyFunSuite {
       connector_methods = Nil
     )
 
-    val json = OBPLikeJsonExporter.export(Seq(laterDoc, docWithRoles), Instant.parse("2025-01-01T00:00:00Z"))
+    val json = OBPLikeJsonExporter.render(Seq(laterDoc, docWithRoles), Instant.parse("2025-01-01T00:00:00Z"))
 
     val firstIdx = json.indexOf("BX-getCustomers")
     val secondIdx = json.indexOf("CX-getBanks")
@@ -279,5 +286,3 @@ class OBPLikeJsonExporterSpec extends AnyFunSuite {
                            |      ]""".stripMargin))
   }
 }
-
-
