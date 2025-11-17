@@ -26,7 +26,7 @@ This guide covers Docker-based development for the OBP Scala Library. The Docker
 ### SBT Operations
 ```bash
 ./dev.sh compile           # Compile all versions
-./dev.sh compile 2.12.17   # Compile specific version
+./dev.sh compile 2.12.20   # Compile specific version
 ./dev.sh test              # Run tests for all versions
 ./dev.sh test 3.3.1        # Run tests for specific version
 ./dev.sh publish           # Publish locally (all versions)
@@ -75,7 +75,7 @@ implementation 'com.openbankproject:obp-scala-library_2.13:0.1.0-SNAPSHOT'
 
 ## Supported Scala Versions
 
-- **2.12.17** - LTS version, widely used in enterprise
+- **2.12.20** - LTS version, widely used in enterprise
 - **2.13.14** - Current stable version (default)
 - **3.3.1** - Latest Scala 3 version
 
@@ -153,7 +153,7 @@ sbt
 
 ### 1. Update build.sbt
 ```scala
-crossScalaVersions := Seq("2.12.17", "2.13.14", "3.3.1", "3.4.0")  // Add new version
+crossScalaVersions := Seq("2.12.20", "2.13.14", "3.3.1", "3.4.0")  // Add new version
 ```
 
 ### 2. Rebuild Docker image

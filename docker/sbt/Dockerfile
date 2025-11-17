@@ -21,7 +21,7 @@ WORKDIR /tmp/warmup
 
 # Create minimal build.sbt to download SBT dependencies
 RUN echo 'scalaVersion := "2.13.14"' > build.sbt && \
-    echo 'crossScalaVersions := Seq("2.12.17", "2.13.14", "3.3.1")' >> build.sbt && \
+    echo 'crossScalaVersions := Seq("2.12.20", "2.13.14", "3.3.1")' >> build.sbt && \
     echo 'name := "warmup"' >> build.sbt && \
     echo 'libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test' >> build.sbt
 

@@ -31,7 +31,7 @@ git push origin v1.0.0
 
 ## Supported Scala Versions
 
-- **2.12.17** - LTS version
+- **2.12.20** - LTS version
 - **2.13.14** - Current stable (default)
 - **3.3.1** - Latest Scala 3
 

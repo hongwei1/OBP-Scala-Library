@@ -58,7 +58,7 @@ Examples:
   $0 all                    # Full build + publish to host Maven repo
 
 Supported Scala Versions:
-  2.12.17, 2.13.14, 3.3.1
+  2.12.20, 2.13.14, 3.3.1
 
 EOF
 }

@@ -17,7 +17,7 @@ git tag v1.0.0
 git push origin v1.0.0
 
 # GitHub Actions automatically:
-# ✅ Builds all Scala versions (2.12.17, 2.13.14, 3.3.1)
+# ✅ Builds all Scala versions (2.12.20, 2.13.14, 3.3.1)
 # ✅ Runs complete test suite
 # ✅ Signs artifacts with GPG
 # ✅ Publishes to Maven Central

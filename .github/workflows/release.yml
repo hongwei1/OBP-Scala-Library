@@ -84,7 +84,7 @@ jobs:
             ```
 
             ### Supported Scala Versions
-            - Scala 2.12.17
+            - Scala 2.12.20
             - Scala 2.13.14
             - Scala 3.3.1
 

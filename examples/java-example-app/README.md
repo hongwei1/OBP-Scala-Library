@@ -189,7 +189,7 @@ The library is cross-compiled for multiple Scala versions:
 <dependency>
     <groupId>org.scala-lang</groupId>
     <artifactId>scala-library</artifactId>
-    <version>2.12.17</version>
+    <version>2.12.20</version>
 </dependency>
 ```
 
