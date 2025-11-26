@@ -1,6 +1,7 @@
 package com.openbankproject.resourcedocs.exporter
 
 import com.openbankproject.resourcedocs.core.model.{OBPResourceDocJson, RoleInfoJson}
+import io.circe.{Json, Printer}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter
 object OBPLikeJsonExporter {
 
   private val isoFormatter: DateTimeFormatter = DateTimeFormatter.ISO_INSTANT
+  private val jsonPrinter: Printer = Printer.spaces2
 
   def render(docs: Seq[OBPResourceDocJson], responseDate: Instant = Instant.now()): String = {
     val orderedDocs = docs.sortBy(_.operation_id)
@@ -33,18 +35,18 @@ object OBPLikeJsonExporter {
       fields += stringField(6, "description", doc.description)
       fields += stringField(6, "description_markdown", doc.description_markdown)
       doc.example_request_body.foreach { body =>
-        fields += jsonField(6, "example_request_body", body, 8)
+        fields += jsonField(6, "example_request_body", jsonToString(body), 8)
       }
       doc.success_response_body.foreach { body =>
-        fields += jsonField(6, "success_response_body", body, 8)
+        fields += jsonField(6, "success_response_body", jsonToString(body), 8)
       }
       fields += stringArrayField(6, "error_response_bodies", doc.error_response_bodies)
       fields += stringArrayField(6, "tags", doc.tags)
       doc.typed_request_body.foreach { body =>
-        fields += jsonField(6, "typed_request_body", body, 8)
+        fields += jsonField(6, "typed_request_body", jsonToString(body), 8)
       }
       doc.typed_success_response_body.foreach { body =>
-        fields += jsonField(6, "typed_success_response_body", body, 8)
+        fields += jsonField(6, "typed_success_response_body", jsonToString(body), 8)
       }
       doc.roles.foreach { roleInfos =>
         fields += rolesField(6, roleInfos)
@@ -185,4 +187,6 @@ object OBPLikeJsonExporter {
   }
 
   private def spaces(count: Int): String = " " * count
+
+  private def jsonToString(value: Json): String = jsonPrinter.print(value)
 }

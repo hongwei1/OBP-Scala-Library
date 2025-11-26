@@ -1,9 +1,14 @@
 package com.openbankproject.resourcedocs.core.model
 
 import com.openbankproject.resourcedocs.core.model.{ImplementedByJson, OBPResourceDocJson}
+import io.circe.Json
+import io.circe.parser.parse
 import org.scalatest.funsuite.AnyFunSuite
 
 class GetBanksResourceDocJsonSpec extends AnyFunSuite {
+
+  private def parseJson(value: String): Json =
+    parse(value).fold(throw _, identity)
 
   test("GetBanks ResourceDocJson should match expected structure") {
     val getBanksDocJson: OBPResourceDocJson = OBPResourceDocJson(
@@ -17,12 +22,16 @@ class GetBanksResourceDocJsonSpec extends AnyFunSuite {
       description_markdown =
         "Get banks on this API instance\nReturns a list of banks supported on this server:\n\n* ID used as parameter in URLs\n* Short and full name of bank\n* Logo URL\n* Website\n\nUser Authentication is Optional. The User need not be logged in.\n\n\n**JSON response body fields:**\n\n\n\n[**address**](/glossary#address): \n\n\n\n[**bank_routing**](/glossary#bank_routing): \n\n\n\n[**banks**](/glossary#banks): \n\n\n\n[**full_name**](/glossary#full_name): full name string\n\n\n\n[**id**](/glossary#id): d8839721-ad8f-45dd-9f78-2080414b93f9\n\n\n\n[**logo**](/glossary#logo): logo url\n\n\n\n[**scheme**](/glossary#scheme): OBP\n\n\n\n[**short_name**](/glossary#short_name): \n\n\n\n[**website**](/glossary#website): www.openbankproject.com\n\n\n",
       success_response_body = Some(
-        """{"banks":[{"id":"gh.29.uk","short_name":"short_name ","full_name":"full_name","logo":"logo","website":"www.openbankproject.com","bank_routing":{"scheme":"OBP","address":"gh.29.uk"}}]}"""
+        parseJson(
+          """{"banks":[{"id":"gh.29.uk","short_name":"short_name ","full_name":"full_name","logo":"logo","website":"www.openbankproject.com","bank_routing":{"scheme":"OBP","address":"gh.29.uk"}}]}"""
+        )
       ),
       error_response_bodies = List("OBP-50000: Unknown Error."),
       tags = List("Bank", "Account Information Service (AIS)", "PSD2"),
       typed_success_response_body = Some(
-        """{"type":"object","properties":{"banks":{"type":"array","items":{"type":"object","properties":{"website":{"type":"string"},"logo":{"type":"string"},"bank_routing":{"type":"object","properties":{"address":{"type":"string"},"scheme":{"type":"string"}}},"short_name":{"type":"string"},"id":{"type":"string"},"full_name":{"type":"string"}}}}}}"""
+        parseJson(
+          """{"type":"object","properties":{"banks":{"type":"array","items":{"type":"object","properties":{"website":{"type":"string"},"logo":{"type":"string"},"bank_routing":{"type":"object","properties":{"address":{"type":"string"},"scheme":{"type":"string"}}},"short_name":{"type":"string"},"id":{"type":"string"},"full_name":{"type":"string"}}}}}}"""
+        )
       ),
       is_featured = false,
       special_instructions = "",
@@ -61,12 +70,16 @@ class GetBanksResourceDocJsonSpec extends AnyFunSuite {
       description_markdown =
         "Get banks on this API instance\nReturns a list of banks supported on this server:\n\n* ID used as parameter in URLs\n* Short and full name of bank\n* Logo URL\n* Website\n\nUser Authentication is Optional. The User need not be logged in.\n\n\n**JSON response body fields:**\n\n\n\n[**address**](/glossary#address): \n\n\n\n[**bank_routing**](/glossary#bank_routing): \n\n\n\n[**banks**](/glossary#banks): \n\n\n\n[**full_name**](/glossary#full_name): full name string\n\n\n\n[**id**](/glossary#id): d8839721-ad8f-45dd-9f78-2080414b93f9\n\n\n\n[**logo**](/glossary#logo): logo url\n\n\n\n[**scheme**](/glossary#scheme): OBP\n\n\n\n[**short_name**](/glossary#short_name): \n\n\n\n[**website**](/glossary#website): www.openbankproject.com\n\n\n",
       success_response_body = Some(
-        """{"banks":[{"id":"gh.29.uk","short_name":"short_name ","full_name":"full_name","logo":"logo","website":"www.openbankproject.com","bank_routing":{"scheme":"OBP","address":"gh.29.uk"}}]}"""
+        parseJson(
+          """{"banks":[{"id":"gh.29.uk","short_name":"short_name ","full_name":"full_name","logo":"logo","website":"www.openbankproject.com","bank_routing":{"scheme":"OBP","address":"gh.29.uk"}}]}"""
+        )
       ),
       error_response_bodies = List("OBP-50000: Unknown Error."),
       tags = List("Bank", "Account Information Service (AIS)", "PSD2"),
       typed_success_response_body = Some(
-        """{"type":"object","properties":{"banks":{"type":"array","items":{"type":"object","properties":{"website":{"type":"string"},"logo":{"type":"string"},"bank_routing":{"type":"object","properties":{"address":{"type":"string"},"scheme":{"type":"string"}}},"short_name":{"type":"string"},"id":{"type":"string"},"full_name":{"type":"string"}}}}}}"""
+        parseJson(
+          """{"type":"object","properties":{"banks":{"type":"array","items":{"type":"object","properties":{"website":{"type":"string"},"logo":{"type":"string"},"bank_routing":{"type":"object","properties":{"address":{"type":"string"},"scheme":{"type":"string"}}},"short_name":{"type":"string"},"id":{"type":"string"},"full_name":{"type":"string"}}}}}}"""
+        )
       ),
       is_featured = false,
       special_instructions = "",

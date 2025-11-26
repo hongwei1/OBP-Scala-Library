@@ -1,5 +1,7 @@
 package com.openbankproject.resourcedocs.core.model
 
+import io.circe.Json
+
 /** JSON-friendly DTO for API resource documentation. This structure avoids framework types and uses primitive-friendly
   * fields.
   */
@@ -27,12 +29,15 @@ final case class OBPResourceDocJson(
     summary: String,
     description: String, // HTML format
     description_markdown: String, // Markdown format
-    example_request_body: Option[String] = None,
-    success_response_body: Option[String] = None,
+    example_request_body: Option[Json] = None,
+    success_response_body: Option[Json] = None,
+    
     error_response_bodies: List[String] = List.empty,
     tags: List[String] = List.empty,
-    typed_request_body: Option[String] = None, // JSON Schema as string
-    typed_success_response_body: Option[String] = None, // JSON Schema as string
+
+    typed_request_body: Option[Json] = None, 
+    typed_success_response_body: Option[Json] = None,
+
     roles: Option[List[RoleInfoJson]] = None,
     is_featured: Boolean = false,
     special_instructions: String = "",
