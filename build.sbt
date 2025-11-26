@@ -15,6 +15,9 @@ ThisBuild / organizationHomepage := Some(url("https://www.openbankproject.com/")
 libraryDependencies ++= Seq(
   "io.circe" %% "circe-core" % "0.14.10",
   "io.circe" %% "circe-parser" % "0.14.10",
+  // JSON Schema generation
+  "com.github.andyglow" %% "scala-jsonschema" % "0.7.11",
+  "com.github.andyglow" %% "scala-jsonschema-circe-json" % "0.7.11",
   "org.scalatest" %% "scalatest" % "3.2.19" % Test
 )
 
